@@ -4,15 +4,21 @@ import userRouter from './routers/userRouter.js';
 import jwt from 'jsonwebtoken';
 import authenticateUser from './middelewares/authentication.js';
 import productRouter from './routers/productRouter.js';
+import cors from "cors"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const app = express();
 
-const mongodbURI = "mongodb://indurangaushan52_db_user:1234@ac-cnpky7s-shard-00-00.8embsvz.mongodb.net:27017,ac-cnpky7s-shard-00-01.8embsvz.mongodb.net:27017,ac-cnpky7s-shard-00-02.8embsvz.mongodb.net:27017/icomputers?ssl=true&replicaSet=atlas-3rud91-shard-0&authSource=admin&appName=Cluster0";
+const mongodbURI = process.env.MongoURI
 
 mongoose.connect(mongodbURI)
   .then(() => {
     console.log("Connected to MongoDB");
   })
+
+app.use(cors())
 
 app.use(express.json());
 app.use(authenticateUser)
